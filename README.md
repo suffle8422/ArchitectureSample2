@@ -1,0 +1,44 @@
+# ArchitectureSample2
+## 概要
+Infrastructure-Domain-Presentationによるシンプルな3層のアーキテクチャのサンプル
+ArchitectureSampleと比べて、Presentation層が1つのモジュールにまとめられていることでPresentation層内での循環依存の解決を考える必要がなくなり、コードがシンプルにできる。
+一方で、Previewのビルド時間の削減効果は薄くなるため、規模が大きくなると開発効率の点で不利になる可能性がある
+そのため、画面数の少ない小規模なアプリでの利用を想定している
+
+## Coreモジュール
+アプリ全体が知ることのできる共通知識を持つモジュール
+抽象化用のProtocolやシンプルなモデルクラスなどを配置する
+Protocol実装時にPreview用のMockを定義する
+
+## Infrastructureモジュール
+外部APIや永続化データとの通信をになうRepository等を持つモジュール
+Domainモジュールのみに依存され、その他の箇所には公開しない
+単一のデータソースに対するI/Oを提供する
+
+## Domainモジュール
+Infrastructureモジュールを適宜利用して、Presentation層に具体的なロジックを提供する。
+〇〇Serviceという命名で複数のデータソースを用いて、Presentation層からの呼び出しに合わせた単位に処理をまとめたり、Repositoryを用いない処理を実装した処理を実装したりする
+
+### AppServices
+このクラスのみがモジュール外に公開される。
+各Serviceは、Coreモジュールに定義されたProtocolで抽象化する
+Domainモジュールで実装されたServiceはこのクラスでインスタンス化されてPresentation層から利用される
+
+## Presentationモジュール
+各画面の具体的な機能を実装する。
+Domainモジュールに依存し、具体的な処理をDomain層から受け取る
+単一画面のPreviewをサポートし、遷移先の動作は保証しない
+
+### Component
+Sceneで利用するUI要素を定義する
+各コンポーネントはモジュール内に隠蔽する
+
+### Scene
+具体的な1つのページを定義する
+1:1対応のSceneStateを持つ
+TopSceneのみをアプリ本体に公開し、それ以外はモジュール内にのみ公開する
+
+### SceneState
+Sceneの状態の保持と具体的な処理の呼び出しを担う
+Domainモジュールの処理を呼び出して状態を書き換えることでSceneの更新をおこなう
+ObservableかつMainActorなfinal classとして定義する

@@ -1,0 +1,24 @@
+{
+  "configurations" : [
+    {
+      "id" : "057192F3-4C69-4EC3-A2D9-6C60BA5E1C6C",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:..\/LocalPackages",
+        "identifier" : "DomainTests",
+        "name" : "DomainTests"
+      }
+    }
+  ],
+  "version" : 1
+}
