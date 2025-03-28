@@ -9,7 +9,7 @@ import Infrastructure
 import Core
 
 /// Repository及びServiceを管理するクラス
-/// Presetntation層から利用される
+/// Presetation層から利用される
 package final class AppServices: Sendable {
     package static let shared = AppServices()
     package let modelContainerManager = ModelContainerManager.shared

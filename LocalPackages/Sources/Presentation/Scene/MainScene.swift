@@ -9,6 +9,8 @@ import SwiftUI
 import SwiftData
 import Domain
 
+/// アプリ起動時に表示する画面
+/// この画面のみをアプリ本体に公開する
 public struct MainScene: View {
     public init() {}
 
